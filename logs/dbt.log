@@ -1,0 +1,112 @@
+[0m19:54:32.510171 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1089b52b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a92b610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a92b750>]}
+
+
+============================== 19:54:32.512164 | a7e4713e-be90-4b62-bdbd-e86af024afc4 ==============================
+[0m19:54:32.512164 [info ] [MainThread]: Running with dbt=1.12.0-b1
+[0m19:54:32.512417 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'introspect': 'True', 'target_path': 'None', 'log_path': 'logs', 'log_format': 'default', 'version_check': 'True', 'quiet': 'False', 'indirect_selection': 'eager', 'static_parser': 'True', 'invocation_command': 'dbt init vta_transformations', 'debug': 'False', 'send_anonymous_usage_stats': 'True', 'empty': 'None', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'log_cache_events': 'False', 'partial_parse': 'True', 'write_json': 'True', 'warn_error': 'None', 'use_experimental_parser': 'False', 'profiles_dir': '/Users/skush/.dbt', 'fail_fast': 'False', 'cache_selected_only': 'False', 'use_colors': 'True'}
+[0m19:54:32.518404 [debug] [MainThread]: Starter project path: /Users/skush/CodeX/transitpulse/.venv/lib/python3.13/site-packages/dbt/include/starter_project
+[0m19:54:32.521176 [info ] [MainThread]: Setting up your profile.
+[0m19:56:00.352144 [info ] [MainThread]: Profile vta_transformations written to /Users/skush/.dbt/profiles.yml using target's profile_template.yml and your supplied values.
+[0m19:56:00.357344 [info ] [MainThread]: Running dbt debug to validate the project...
+[0m19:56:00.358672 [info ] [MainThread]: dbt version: 1.12.0-b1
+[0m19:56:00.359058 [info ] [MainThread]: python version: 3.13.5
+[0m19:56:00.359545 [info ] [MainThread]: python path: /Users/skush/CodeX/transitpulse/.venv/bin/python3
+[0m19:56:00.359932 [info ] [MainThread]: os info: macOS-26.0.1-arm64-arm-64bit-Mach-O
+[0m19:56:00.383860 [info ] [MainThread]: Using profiles dir at /Users/skush/.dbt
+[0m19:56:00.384191 [info ] [MainThread]: Using profiles.yml file at /Users/skush/.dbt/profiles.yml
+[0m19:56:00.384359 [info ] [MainThread]: Using dbt_project.yml file at /Users/skush/CodeX/transitpulse/vta_transformations/dbt_project.yml
+[0m19:56:00.385018 [info ] [MainThread]: adapter type: postgres
+[0m19:56:00.385277 [info ] [MainThread]: adapter version: 1.10.0
+[0m19:56:00.429823 [info ] [MainThread]: Configuration:
+[0m19:56:00.430054 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m19:56:00.430162 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m19:56:00.430261 [info ] [MainThread]: Required dependencies:
+[0m19:56:00.430424 [debug] [MainThread]: Executing "git --help"
+[0m19:56:00.443309 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m19:56:00.443715 [debug] [MainThread]: STDERR: "b''"
+[0m19:56:00.443858 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m19:56:00.443977 [info ] [MainThread]: Connection:
+[0m19:56:00.444105 [info ] [MainThread]:   host: aws-0-us-west-1.pooler.supabase.com
+[0m19:56:00.444197 [info ] [MainThread]:   port: 6543
+[0m19:56:00.444283 [info ] [MainThread]:   user: postgres
+[0m19:56:00.444362 [info ] [MainThread]:   database: postgres
+[0m19:56:00.444444 [info ] [MainThread]:   schema: public
+[0m19:56:00.444521 [info ] [MainThread]:   connect_timeout: 10
+[0m19:56:00.444601 [info ] [MainThread]:   role: None
+[0m19:56:00.444678 [info ] [MainThread]:   search_path: None
+[0m19:56:00.444754 [info ] [MainThread]:   keepalives_idle: 0
+[0m19:56:00.444833 [info ] [MainThread]:   sslmode: None
+[0m19:56:00.444907 [info ] [MainThread]:   sslcert: None
+[0m19:56:00.444984 [info ] [MainThread]:   sslkey: None
+[0m19:56:00.445059 [info ] [MainThread]:   sslrootcert: None
+[0m19:56:00.445133 [info ] [MainThread]:   application_name: dbt
+[0m19:56:00.445212 [info ] [MainThread]:   retries: 1
+[0m19:56:00.445483 [info ] [MainThread]: Registered adapter: postgres=1.10.0
+[0m19:56:00.484171 [debug] [MainThread]: Acquiring new postgres connection 'debug'
+[0m19:56:00.503240 [debug] [MainThread]: Using postgres connection "debug"
+[0m19:56:00.503401 [debug] [MainThread]: On debug: select 1 as id
+[0m19:56:00.503503 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m19:56:00.647497 [debug] [MainThread]: Postgres adapter: Got a retryable error when attempting to open a postgres connection.
+1 attempts remaining. Retrying in 0 seconds.
+Error:
+connection to server at "aws-0-us-west-1.pooler.supabase.com" (54.177.55.191), port 6543 failed: FATAL:  Tenant or user not found
+connection to server at "aws-0-us-west-1.pooler.supabase.com" (54.177.55.191), port 6543 failed: FATAL:  Tenant or user not found
+
+[0m19:56:00.701721 [debug] [MainThread]: Postgres adapter: Error running SQL: select 1 as id
+[0m19:56:00.702023 [debug] [MainThread]: Postgres adapter: Rolling back transaction.
+[0m19:56:00.702273 [debug] [MainThread]: On debug: No close available on handle
+[0m19:56:00.702505 [info ] [MainThread]:   Connection test: [[31mERROR[0m]
+
+[0m19:56:00.702724 [info ] [MainThread]: [31m1 check failed:[0m
+[0m19:56:00.702911 [info ] [MainThread]: dbt was unable to connect to the specified database.
+The database returned the following error:
+
+  >Database Error
+  connection to server at "aws-0-us-west-1.pooler.supabase.com" (54.177.55.191), port 6543 failed: FATAL:  Tenant or user not found
+  connection to server at "aws-0-us-west-1.pooler.supabase.com" (54.177.55.191), port 6543 failed: FATAL:  Tenant or user not found
+  
+
+Check your database credentials and try again. For more information, visit:
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m19:56:00.703198 [info ] [MainThread]: Your new dbt project "vta_transformations" was created!
+Initialized new project in /Users/skush/CodeX/transitpulse/vta_transformations/vta_transformations
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m19:56:00.703418 [info ] [MainThread]: [31mYour profile may need adjustments. You can find the logs of `dbt debug` above[0m
+[0m19:56:00.707076 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 88.23592, "process_in_blocks": "0", "process_kernel_time": 0.150981, "process_mem_max_rss": "121470976", "process_out_blocks": "0", "process_user_time": 0.70467}
+[0m19:56:00.707440 [debug] [MainThread]: Command `dbt init` succeeded at 19:56:00.707349 after 88.24 seconds
+[0m19:56:00.707656 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m19:56:00.707865 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c0c29e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109fdaf90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c0f05a0>]}
+[0m19:56:00.708124 [debug] [MainThread]: Flushing usage events
+[0m19:56:01.145885 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:58:49.550148 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1062b52b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107357610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107357750>]}
+
+
+============================== 19:58:49.552538 | 68724cfa-51c9-4560-b55a-6533a85cc2ae ==============================
+[0m19:58:49.552538 [info ] [MainThread]: Running with dbt=1.12.0-b1
+[0m19:58:49.552778 [debug] [MainThread]: running dbt with arguments {'send_anonymous_usage_stats': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'debug': 'False', 'use_experimental_parser': 'False', 'printer_width': '80', 'fail_fast': 'False', 'target_path': 'None', 'write_json': 'True', 'static_parser': 'True', 'partial_parse': 'True', 'indirect_selection': 'eager', 'version_check': 'True', 'quiet': 'False', 'log_path': 'logs', 'cache_selected_only': 'False', 'log_cache_events': 'False', 'log_format': 'default', 'invocation_command': 'dbt deps', 'introspect': 'True', 'empty': 'None', 'no_print': 'None', 'use_colors': 'True', 'profiles_dir': '/Users/skush/.dbt', 'warn_error': 'None'}
+[0m19:58:49.553108 [error] [MainThread]: [[31mERROR[0m]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/skush/CodeX/transitpulse/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m19:58:49.554612 [debug] [MainThread]: Resource report: {"command_name": "deps", "command_success": false, "command_wall_clock_time": 0.035754208, "process_in_blocks": "0", "process_kernel_time": 0.084855, "process_mem_max_rss": "116850688", "process_out_blocks": "0", "process_user_time": 0.475703}
+[0m19:58:49.554794 [debug] [MainThread]: Command `dbt deps` failed at 19:58:49.554759 after 0.04 seconds
+[0m19:58:49.554909 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1073c48a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1072031d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107373130>]}
+[0m19:58:49.555016 [debug] [MainThread]: Flushing usage events
+[0m19:58:49.897814 [debug] [MainThread]: An error was encountered while trying to flush usage events
