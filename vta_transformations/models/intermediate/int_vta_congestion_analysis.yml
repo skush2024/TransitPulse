@@ -1,0 +1,16 @@
+# models/intermediate/int_vta_congestion_analysis.yml
+version: 2
+
+models:
+  - name: int_vta_congestion_analysis
+    description: "Calculates route-level moving speed averages and computes Z-scores to isolate spatial traffic bottleneck anomalies over a 2-day rolling window."
+    columns:
+      - name: vehicle_id
+        description: "The unique identifier of the VTA vehicle transponder."
+        tests:
+          - not_null
+      - name: is_congestion_bottleneck
+        description: "Boolean flag indicating if a vehicle is crawling below 5mph and experiencing statistically significant delay."
+        tests:
+          - accepted_values:
+              values: [true, false]

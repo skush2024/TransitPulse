@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: vta_raw
+    schema: public
+    tables:
+      - name: raw_gtfs_static_stops
+      - name: raw_gtfs_static_routes
+      - name: raw_gtfs_static_trips
+      - name: raw_gtfs_static_shapes
+      - name: raw_gtfs_realtime_pings
+      - name: raw_gtfs_static_stop_times

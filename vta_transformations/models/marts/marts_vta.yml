@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: fct_transit_otp_hourly
+    description: "Hourly aggregated performance metrics for VTA routes used to plot historical traffic trend charts and operational reliability."
+    columns:
+      - name: performance_hour
+        description: "The hour window truncated to the nearest starting hour."
+        tests:
+          - not_null
+      - name: congestion_rate
+        description: "The percentage of vehicle pings during this hour that were flagged as stuck in an anomalous bottleneck."
+        tests:
+          - not_null
+      - name: otp_percentage
+        description: "The percentage of total route arrivals during this hour window that landed within the acceptable on-time range (-1 to +5 minutes)."
+        tests:
+          - not_null
+      - name: anomalous_delay_count
+        description: "Count of arrivals exceeding the 1.5x IQR threshold for extreme statistical delays at a stop."
+
+  - name: dim_corridor_performance
+    description: "Spatial performance mart linking average vehicle speeds directly to GeoPandas LineString geometries for map visualization."
+    columns:
+      - name: shape_id
+        description: "The unique identifier linking back to the static physical route trace."
+        tests:
+          - not_null
+      - name: geometry_wkt
+        description: "The Well-Known Text (WKT) string representation of the route line used by map plugins."
+        tests:
+          - not_null
+
+  - name: fct_pipeline_health
+    description: "Data observability mart used to monitor total ingested volume, active fleet counts, and overall end-to-end latency."
+    columns:
+      - name: ingestion_minute
+        description: "Minute-by-minute timeline tracker."
+        tests:
+          - not_null

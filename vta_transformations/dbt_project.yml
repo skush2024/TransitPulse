@@ -1,0 +1,26 @@
+name: 'vta_transformations' # ◄─── Ensure this matches your project name exactly
+version: '1.0.0'
+config-version: 2
+
+profile: 'vta_transformations'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_modules"
+  - "logs"
+
+models:
+  vta_transformations: # ◄─── THIS MUST MATCH YOUR PROJECT NAME EXACTLY
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

@@ -1,0 +1,37 @@
+name: TransitPulse Realtime Pipeline
+
+on:
+  repository_dispatch:
+    types: [trigger-realtime]
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies in Virtual Environment
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install -r ingestion/requirements.txt
+
+      - name: Run Pipeline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          API_511_KEY: ${{ secrets.API_511_KEY }}
+        run: |
+          # Write secrets dynamically to .env so the orchestrator reads them
+          echo "DATABASE_URL=$DATABASE_URL" > .env
+          echo "API_511_KEY=$API_511_KEY" >> .env
+          
+          # Run the 1-minute ingestion and dbt sequence
+          chmod +x pipeline_scheduler.sh
+          ./pipeline_scheduler.sh realtime
