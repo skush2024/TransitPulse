@@ -1,3 +1,4 @@
+-- models/intermediate/int_vta_arrival_performance.sql
 {{ config(materialized='view') }}
 
 with realtime_localized as (
@@ -5,14 +6,13 @@ with realtime_localized as (
         trip_id,
         route_id,
         current_stop_sequence as stop_sequence,
-        -- Convert UTC ping to Local Transit Time (Pacific Time)
-        (ping_timestamp at time zone 'UTC' at time zone 'America/Los_Angeles') as local_ping_timestamp,
-        -- Safely extract the calendar service date
-        cast(ping_timestamp at time zone 'UTC' at time zone 'America/Los_Angeles' as date) as service_date
+        ping_timestamp as ping_timestamp_utc,
+        cast((ping_timestamp AT TIME ZONE 'America/Los_Angeles') as date) as service_date
     from {{ ref('stg_vta_realtime') }}
     where trip_id is not null
-      and route_id is not null
-      and current_stop_sequence is not null
+    and trip_id != ''
+    and route_id is not null
+    and current_stop_sequence is not null
 ),
 
 realtime_arrivals as (
@@ -21,9 +21,8 @@ realtime_arrivals as (
         route_id,
         stop_sequence,
         service_date,
-        min(local_ping_timestamp) as actual_arrival_timestamp
+        min(ping_timestamp_utc) as actual_arrival_timestamp
     from realtime_localized
-    -- Grouping by service_date isolates today's run from yesterday's run
     group by 1, 2, 3, 4
 ),
 
@@ -34,8 +33,8 @@ schedule as (
         stop_id,
         scheduled_arrival_time
     from {{ ref('stg_vta_stop_times') }}
-    where trip_id is not null 
-      and stop_sequence is not null
+    where trip_id is not null
+    and stop_sequence is not null
 ),
 
 joined as (
@@ -48,18 +47,29 @@ joined as (
         s.stop_id,
         s.scheduled_arrival_time,
 
-        -- Construct a real timestamp by adding the GTFS scheduled interval to the start of the service date day
-        (cast(r.service_date as timestamp) + s.scheduled_arrival_time) as scheduled_arrival_timestamp,
-
-        -- Standard epoch subtraction between two full timestamps (avoids midnight wrap-arounds)
+        -- FIX: GTFS static times are LA wall-clock values.
+        -- Adding a bare interval to a DATE produces TIMESTAMP WITHOUT TIME ZONE,
+        -- which Postgres would implicitly cast using the session timezone (UTC on Supabase).
+        -- Explicitly tagging the result as America/Los_Angeles converts it to TIMESTAMPTZ
+        -- correctly, including DST transitions.
+        (r.service_date + s.scheduled_arrival_time::interval)AT TIME ZONE 'America/Los_Angeles'              as scheduled_arrival_timestamp,
         extract(
-            epoch from (r.actual_arrival_timestamp - (cast(r.service_date as timestamp) + s.scheduled_arrival_time))
-        ) / 60.0 as delay_minutes
+            epoch from (
+                r.actual_arrival_timestamp
+                - ((r.service_date + s.scheduled_arrival_time::interval) AT TIME ZONE 'America/Los_Angeles')
+            )
+        ) / 60.0                                            as delay_minutes
 
     from realtime_arrivals r
     inner join schedule s
-        on r.trip_id = s.trip_id
+        on  r.trip_id = s.trip_id
         and r.stop_sequence = s.stop_sequence
+),
+
+plausible as (
+    select *
+    from joined
+    where delay_minutes between -30 and 120
 ),
 
 headways as (
@@ -67,21 +77,22 @@ headways as (
         *,
         extract(
             epoch from (
-                actual_arrival_timestamp - lag(actual_arrival_timestamp) over (
+                actual_arrival_timestamp
+                - lag(actual_arrival_timestamp) over (
                     partition by route_id, stop_id, service_date
                     order by actual_arrival_timestamp
                 )
             )
         ) / 60.0 as actual_headway_minutes
-    from joined
+    from plausible
 ),
 
 stop_delay_iqr as (
     select
         stop_id,
-        percentile_cont(0.75) within group (order by delay_minutes) as delay_p75,
-        percentile_cont(0.25) within group (order by delay_minutes) as delay_p25,
-        (percentile_cont(0.75) within group (order by delay_minutes) - percentile_cont(0.25) within group (order by delay_minutes)) as stop_delay_iqr
+        percentile_cont(0.75) within group (order by delay_minutes)
+            - percentile_cont(0.25) within group (order by delay_minutes)
+            as stop_delay_iqr
     from headways
     where delay_minutes is not null
     group by stop_id
@@ -92,7 +103,7 @@ select
     h.route_id,
     h.stop_sequence,
     h.service_date,
-    h.actual_arrival_timestamp,
+    h.actual_arrival_timestamp::timestamptz,
     h.scheduled_arrival_timestamp,
     h.stop_id,
     h.delay_minutes,

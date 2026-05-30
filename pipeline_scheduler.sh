@@ -4,13 +4,10 @@
 # Manages Static GTFS, Realtime Ingestion, and dbt Transformations
 #
 # Cron schedule (add to crontab with: crontab -e):
-#   # Realtime ingestion: every 2 minutes
-#   */2 * * * * /Users/skush/CodeX/transitpulse/pipeline_scheduler.sh realtime >> /Users/skush/CodeX/transitpulse/logs/cron.log 2>&1
+#   # Realtime Ingestion & dbt transformations: every 1 minute (dbt runs 5 seconds after ingestion)
+#   * * * * * /Users/skush/CodeX/transitpulse/pipeline_scheduler.sh realtime >> /Users/skush/CodeX/transitpulse/logs/cron.log 2>&1
 #
-#   # dbt transformation run: every hour at :05 (after realtime has settled)
-#   5 * * * * /Users/skush/CodeX/transitpulse/pipeline_scheduler.sh dbt >> /Users/skush/CodeX/transitpulse/logs/cron.log 2>&1
-#
-#   # Static GTFS refresh: every Sunday at 03:00 AM (GTFS schedules update weekly)
+#   # Static GTFS refresh: every Sunday at 03:00 AM
 #   0 3 * * 0 /Users/skush/CodeX/transitpulse/pipeline_scheduler.sh static >> /Users/skush/CodeX/transitpulse/logs/cron.log 2>&1
 #
 #   # Full pipeline (static + dbt): same weekly cadence, 30 min after static
@@ -20,7 +17,7 @@
 set -euo pipefail
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-REPO_DIR="/Users/skush/CodeX/transitpulse"
+REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 INGESTION_DIR="${REPO_DIR}/ingestion"
 DBT_DIR="${REPO_DIR}/vta_transformations"
 LOG_DIR="${REPO_DIR}/logs"
@@ -85,6 +82,9 @@ case "${MODE}" in
     realtime)
         check_dependencies
         run_realtime
+        log "⏳ Sleeping 5 seconds before running dbt..."
+        sleep 5
+        run_dbt
         ;;
     static)
         check_dependencies
