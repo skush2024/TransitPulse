@@ -5,3 +5,4 @@ __pycache__/
 
 profiles.yml
 .gitkeep
+.DS_Store

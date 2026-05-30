@@ -18,6 +18,7 @@ dbt-protos==1.0.514
 deepdiff==8.6.2
 fiona==1.10.1
 geopandas==0.14.3
+gtfs-realtime-bindings==2.0.0
 idna==3.17
 importlib_metadata==9.0.0
 isodate==0.7.2
