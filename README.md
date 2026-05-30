@@ -6,7 +6,7 @@
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions)](https://github.com/features/actions)
 [![Language](https://img.shields.io/badge/Language-Python%203.11-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
 
-> **Live Analytics Dashboard:** 📊 [Access the Live Grafana Dashboard Here] (https://skush2024.grafana.net/public-dashboards/032f9f05764b41218e9b96f3d184092c)
+> 📊 **Dashboard Previews:** Scroll down to the [Analytics Dashboard & Visualizations](#-analytics-dashboard--visualizations) section to view system screenshots.
 
 TransitPulse is a high-performance, real-time data engineering pipeline designed to ingest, process, transform, and visualize public transit performance telemetry. Focusing on the **Santa Clara Valley Transportation Authority (VTA)** network, the platform consumes raw, heterogeneous public transit feeds and produces high-value, actionable insights regarding on-time reliability, spatial bottleneck hotspots, and network-wide delay statistics.
 
@@ -102,11 +102,29 @@ The Grafana dashboard delivers actionable operational insights, serving as a sin
 └──────────────────────────────┴─────────────────────────────────────────┘
 ```
 
-### 📈 Visual Panels Included:
-1.  **On-Time Performance Gauge:** Displays real-time OTP percentiles. Instantly flags hourly performance dropping below the 80% operational benchmark.
-2.  **Interactive Bottleneck GIS Map:** Leverages Grafana's Geomap panel utilizing dynamic **Well-Known Text (WKT) shapes** from the `dim_corridor_performance` model. Highlights high-traffic transit corridors in **Red** vs. high-velocity corridors in **Green**.
-3.  **Historical Congestion Trends:** Timelines mapping route-by-route congestion rates and anomalous delay frequencies, isolating recurring rush-hour bottlenecks.
-4.  **Operator Health Command Center:** Displays ingestion frequency, vehicle ping load counts, database transaction execution speeds, and dbt unit test validation states.
+### ⚡ Dashboard Showcases & Interactive Views
+
+Below are visual showcases of the primary panels integrated into the TransitPulse operational control center:
+
+#### 1. Core System KPIs & Performance Overview
+Displays overall fleet health, live counts of active vehicle transponders, real-time average coordinates, and primary On-Time Performance metrics in real-time.
+![System KPIs & OTP Overview](images/systemKPI.png)
+
+#### 2. Real-Time Bottleneck Corridor Heatmap
+Leverages Grafana's Geomap panel utilizing dynamic **Well-Known Text (WKT) shapes** generated from the `dim_corridor_performance` PostGIS shapes model. Instantly isolates routes crawling below 5 mph.
+![Real-Time Bottleneck Corridor Map](images/corridor.png)
+
+#### 3. Stop-Level On-Time Performance (OTP)
+Deep dive into specific stop-by-stop schedule differences. Traces scheduled vs. actual arrival times to score routes against VTA's operational standards.
+![Stop-Level OTP Performance](images/stoplevelperformance.png)
+
+#### 4. Historical & Daily Congestion Trends
+Time-series graphs aggregating congestion bottlenecks throughout the day. Crucial for identifying recurring peak rush-hour delays.
+![Daily Congestion Trends](images/congestiondaily.png)
+
+#### 5. Operator Health & Ingestion Pipeline Observability
+Data quality and system monitoring panel tracking overall ping rate ingestion speed, table sizes, database operations status, and dbt test validations.
+![Pipeline Observability](images/pipelineobservability.png)
 
 ---
 
