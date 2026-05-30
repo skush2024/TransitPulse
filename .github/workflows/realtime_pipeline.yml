@@ -32,6 +32,33 @@ jobs:
           echo "DATABASE_URL=$DATABASE_URL" > .env
           echo "API_511_KEY=$API_511_KEY" >> .env
           
+          # Dynamically compile vta_transformations/profiles.yml for dbt
+          .venv/bin/python -c "
+          from urllib.parse import urlparse
+          import os
+          import yaml
+          url = urlparse(os.environ['DATABASE_URL'])
+          profile = {
+              'vta_transformations': {
+                  'outputs': {
+                      'dev': {
+                          'type': 'postgres',
+                          'host': url.hostname,
+                          'port': url.port or 5432,
+                          'user': url.username,
+                          'pass': url.password,
+                          'dbname': url.path.lstrip('/'),
+                          'schema': 'public',
+                          'threads': 4
+                      }
+                  },
+                  'target': 'dev'
+              }
+          }
+          with open('vta_transformations/profiles.yml', 'w') as f:
+              yaml.dump(profile, f)
+          "
+          
           # Run the 1-minute ingestion and dbt sequence
           chmod +x pipeline_scheduler.sh
           ./pipeline_scheduler.sh realtime
